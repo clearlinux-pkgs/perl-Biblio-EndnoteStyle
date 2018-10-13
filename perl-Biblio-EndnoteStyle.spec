@@ -4,16 +4,16 @@
 #
 Name     : perl-Biblio-EndnoteStyle
 Version  : 0.06
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libb/libbiblio-endnotestyle-perl/libbiblio-endnotestyle-perl_0.06-1.debian.tar.xz
 Summary  : 'reference formatting using Endnote-like templates'
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
-Requires: perl-Biblio-EndnoteStyle-bin
-Requires: perl-Biblio-EndnoteStyle-license
-Requires: perl-Biblio-EndnoteStyle-man
+Requires: perl-Biblio-EndnoteStyle-bin = %{version}-%{release}
+Requires: perl-Biblio-EndnoteStyle-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 Biblio::EndnoteStyle
@@ -27,11 +27,20 @@ $ perldoc lib/Biblio/EndnoteStyle.pm
 %package bin
 Summary: bin components for the perl-Biblio-EndnoteStyle package.
 Group: Binaries
-Requires: perl-Biblio-EndnoteStyle-license
-Requires: perl-Biblio-EndnoteStyle-man
+Requires: perl-Biblio-EndnoteStyle-license = %{version}-%{release}
 
 %description bin
 bin components for the perl-Biblio-EndnoteStyle package.
+
+
+%package dev
+Summary: dev components for the perl-Biblio-EndnoteStyle package.
+Group: Development
+Requires: perl-Biblio-EndnoteStyle-bin = %{version}-%{release}
+Provides: perl-Biblio-EndnoteStyle-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Biblio-EndnoteStyle package.
 
 
 %package license
@@ -42,19 +51,11 @@ Group: Default
 license components for the perl-Biblio-EndnoteStyle package.
 
 
-%package man
-Summary: man components for the perl-Biblio-EndnoteStyle package.
-Group: Default
-
-%description man
-man components for the perl-Biblio-EndnoteStyle package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Biblio-EndnoteStyle-0.06
-mkdir -p %{_topdir}/BUILD/Biblio-EndnoteStyle-0.06/deblicense/
+cd ..
+%setup -q -T -D -n Biblio-EndnoteStyle-0.06 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Biblio-EndnoteStyle-0.06/deblicense/
 
 %build
@@ -79,12 +80,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-Biblio-EndnoteStyle
-cp deblicense/copyright %{buildroot}/usr/share/doc/perl-Biblio-EndnoteStyle/deblicense_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Biblio-EndnoteStyle
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Biblio-EndnoteStyle/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -93,16 +94,16 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Biblio/EndnoteStyle.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Biblio/EndnoteStyle.pm
 
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/endnote-format
 
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-Biblio-EndnoteStyle/deblicense_copyright
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Biblio::EndnoteStyle.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Biblio-EndnoteStyle/deblicense_copyright
