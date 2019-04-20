@@ -4,11 +4,11 @@
 #
 Name     : perl-Biblio-EndnoteStyle
 Version  : 0.06
-Release  : 8
+Release  : 9
 URL      : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libb/libbiblio-endnotestyle-perl/libbiblio-endnotestyle-perl_0.06-1.debian.tar.xz
-Summary  : 'reference formatting using Endnote-like templates'
+Summary  : Perl/CPAN Module Biblio::EndnoteStyle: reference formatting using Endnote-like templates
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
 Requires: perl-Biblio-EndnoteStyle-bin = %{version}-%{release}
@@ -38,6 +38,7 @@ Summary: dev components for the perl-Biblio-EndnoteStyle package.
 Group: Development
 Requires: perl-Biblio-EndnoteStyle-bin = %{version}-%{release}
 Provides: perl-Biblio-EndnoteStyle-devel = %{version}-%{release}
+Requires: perl-Biblio-EndnoteStyle = %{version}-%{release}
 
 %description dev
 dev components for the perl-Biblio-EndnoteStyle package.
@@ -56,7 +57,7 @@ license components for the perl-Biblio-EndnoteStyle package.
 cd ..
 %setup -q -T -D -n Biblio-EndnoteStyle-0.06 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Biblio-EndnoteStyle-0.06/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Biblio-EndnoteStyle-0.06/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
