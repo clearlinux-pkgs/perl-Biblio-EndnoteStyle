@@ -4,15 +4,16 @@
 #
 Name     : perl-Biblio-EndnoteStyle
 Version  : 0.06
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libb/libbiblio-endnotestyle-perl/libbiblio-endnotestyle-perl_0.06-1.debian.tar.xz
-Summary  : Perl/CPAN Module Biblio::EndnoteStyle: reference formatting using Endnote-like templates
+Summary  : 'reference formatting using Endnote-like templates'
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
 Requires: perl-Biblio-EndnoteStyle-bin = %{version}-%{release}
 Requires: perl-Biblio-EndnoteStyle-license = %{version}-%{release}
+Requires: perl-Biblio-EndnoteStyle-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -52,18 +53,28 @@ Group: Default
 license components for the perl-Biblio-EndnoteStyle package.
 
 
+%package perl
+Summary: perl components for the perl-Biblio-EndnoteStyle package.
+Group: Default
+Requires: perl-Biblio-EndnoteStyle = %{version}-%{release}
+
+%description perl
+perl components for the perl-Biblio-EndnoteStyle package.
+
+
 %prep
 %setup -q -n Biblio-EndnoteStyle-0.06
-cd ..
-%setup -q -T -D -n Biblio-EndnoteStyle-0.06 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libbiblio-endnotestyle-perl_0.06-1.debian.tar.xz
+cd %{_builddir}/Biblio-EndnoteStyle-0.06
 mkdir -p deblicense/
-cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Biblio-EndnoteStyle-0.06/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Biblio-EndnoteStyle-0.06/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -73,7 +84,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -82,7 +93,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Biblio-EndnoteStyle
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Biblio-EndnoteStyle/deblicense_copyright
+cp %{_builddir}/Biblio-EndnoteStyle-0.06/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Biblio-EndnoteStyle/3cb6c43f75ff341fbcc66ee05d5efd4e8dc96365
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -95,7 +106,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Biblio/EndnoteStyle.pm
 
 %files bin
 %defattr(-,root,root,-)
@@ -107,4 +117,8 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Biblio-EndnoteStyle/deblicense_copyright
+/usr/share/package-licenses/perl-Biblio-EndnoteStyle/3cb6c43f75ff341fbcc66ee05d5efd4e8dc96365
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Biblio/EndnoteStyle.pm
