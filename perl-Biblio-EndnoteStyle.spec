@@ -4,7 +4,7 @@
 #
 Name     : perl-Biblio-EndnoteStyle
 Version  : 0.06
-Release  : 14
+Release  : 15
 URL      : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MI/MIRK/Biblio-EndnoteStyle-0.06.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libb/libbiblio-endnotestyle-perl/libbiblio-endnotestyle-perl_0.06-1.debian.tar.xz
@@ -121,4 +121,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.3/Biblio/EndnoteStyle.pm
+/usr/lib/perl5/vendor_perl/5.32.1/Biblio/EndnoteStyle.pm
